@@ -1,72 +1,236 @@
 {
-  "welcome_to_cropnet": "क्रॉपनेट में आपका स्वागत है",
-  "select_your_preferred_language": "अपनी पसंदीदा भाषा चुनें",
-  "email_id": "ईमेल आईडी",
-  "password": "पासवर्ड",
-  "login": "लॉगिन",
-  "please_enter_your_email": "कृपया अपना ईमेल दर्ज करें",
-  "enter_valid_email": "एक वैध ईमेल पता दर्ज करें",
-  "please_enter_your_password": "कृपया अपना पासवर्ड दर्ज करें",
-  "password_length_error": "पासवर्ड कम से कम 8 अक्षर लंबा होना चाहिए",
-  "no_internet_connection": "कोई इंटरनेट कनेक्शन नहीं है। कृपया अपने नेटवर्क की जांच करें।",
-  "error": "त्रुटि",
-  "okay": "ठीक है",
-  "login_successful": "लॉगिन सफल!",
-  "login_failed": "लॉगिन विफल हुआ। कृपया पुन: प्रयास करें।",
-  "an_error_occurred": "एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।",
+
+    "Dashboard": "डैशबोर्ड",
+
+    "select_your_preferred_language": "अपनी पसंदीदा भाषा चुनें",
+    "email_id": "ईमेल आईडी",
+    "password": "पासवर्ड",
+    "login": "लॉगिन",
+    "please_enter_your_email": "कृपया अपना ईमेल दर्ज करें",
+    "enter_valid_email": "एक वैध ईमेल पता दर्ज करें",
+    "please_enter_your_password": "कृपया अपना पासवर्ड दर्ज करें",
+    "password_length_error": "पासवर्ड कम से कम 8 अक्षर लंबा होना चाहिए",
+    "no_internet_connection": "कोई इंटरनेट कनेक्शन नहीं है। कृपया अपने नेटवर्क की जांच करें।",
+    "error": "त्रुटि",
+    "okay": "ठीक है",
+    "login_successful": "लॉगिन सफल!",
+    "login_failed": "लॉगिन विफल हुआ। कृपया पुन: प्रयास करें।",
+    "an_error_occurred": "एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।",
 
 
-  "dashboard": "डैशबोर्ड",
-  "cropnet": "क्रॉपनेट",
-  "weather_error": "मौसम की जानकारी लोड नहीं हो सकी",
-  "check_connection": "कृपया अपना कनेक्शन जांचें",
-  "humidity": "आर्द्रता",
-  "wind": "हवा",
-  "precipitation": "वर्षा",
-  "sunrise": "सूर्योदय",
-  "sunset": "सूर्यास्त",
-  "24_hours": "24 घंटे",
-  "area_leveling": "क्षेत्र समतलीकरण",
-  "pre_land_preparation": "पूर्व भूमि तैयारी",
-  "pre_irrigation": "पूर्व सिंचाई",
-  "land_preparation": "भूमि तैयारी",
-  "sowing": "बुवाई",
-  "post_irrigation": "पश्चात सिंचाई",
-  "fertilizer": "उर्वरक",
-  "crop_protection": "फसल संरक्षण",
-  "activity_monitoring": "गतिविधि निगरानी",
-  "inter_culture": "अंतःकृषि",
-  "harvest": "फसल कटाई",
-  "hay_making": "घास बनाना",
-  "silage_making": "साइलेज बनाना",
+    "dashboard": "डैशबोर्ड",
+    "weather_error": "मौसम की जानकारी लोड नहीं हो सकी",
+    "check_connection": "कृपया अपना कनेक्शन जांचें",
+    "humidity": "आर्द्रता",
+    "wind": "हवा",
+    "precipitation": "वर्षा",
+    "sunrise": "सूर्योदय",
+    "sunset": "सूर्यास्त",
+    "24_hours": "24 घंटे",
+    "area_leveling": "क्षेत्र समतलीकरण",
+    "pre_land_preparation": "पूर्व भूमि तैयारी",
+    "pre_irrigation": "पूर्व सिंचाई",
+    "land_preparation": "भूमि तैयारी",
+    "sowing": "बुवाई",
+    "post_irrigation": "पश्चात सिंचाई",
+    "fertilizer": "उर्वरक",
+    "crop_protection": "फसल संरक्षण",
+    "activity_monitoring": "गतिविधि निगरानी",
+    "inter_culture": "अंतःकृषि",
+    "harvest": "फसल कटाई",
+    "hay_making": "घास बनाना",
+    "silage_making": "साइलेज बनाना",
 
 
 
-  "Select": "चुनें",
-  "Select Block": "ब्लॉक चुनें",
-  "Select Plot": "प्लॉट चुनें",
-  "Select Tractor": "ट्रैक्टर चुनें",
-  "Select Machine": "मशीन चुनें",
-  "Select ManPower": "कर्मचारी चुनें",
-  "On Roll": "नियमित कर्मचारी",
-  "Off Roll": "अनियमित कर्मचारी",
-  "Third Party": "बाहरी कर्मचारी",
-  "Block Name": "ब्लॉक का नाम",
-  "Plot Name": "प्लॉट का नाम",
-  "Area (Acre)": "क्षेत्रफल (एकड़)",
-  "Enter a Total Area": "कुल क्षेत्रफल दर्ज करें",
-  "Please select a plot first": "कृपया पहले प्लॉट चुनें",
-  "Please select Block Name": "कृपया ब्लॉक का नाम चुनें",
-  "Please select Plot Name": "कृपया प्लॉट का नाम चुनें",
-  "Machine": "मशीन",
-  "Tractor": "ट्रैक्टर",
-  "Type of Man Power": "कर्मचारी का प्रकार",
-  "Error loading data: ": "डेटा लोड करने में त्रुटि: ",
-  "Error loading tractor data: ": "ट्रैक्टर डेटा लोड करने में त्रुटि: ",
-  "Error loading machine data: ": "मशीन डेटा लोड करने में त्रुटि: ",
-  "Authentication token not found": "प्रमाणीकरण टोकन नहीं मिला",
-  "API returned false success status": "API ने गलत सफलता स्थिति लौटाई",
-  "Failed to load data": "डेटा लोड करने में विफल"
+    "Select": "चुनें",
+    "Select Block": "ब्लॉक चुनें",
+    "Select Plot": "प्लॉट चुनें",
+    "Select Tractor": "ट्रैक्टर चुनें",
+    "Select Machine": "मशीन चुनें",
+    "Select ManPower": "कर्मचारी चुनें",
+    "Block Name": "ब्लॉक का नाम",
+    "Plot Name": "प्लॉट का नाम",
+    "Area (Acre)": "क्षेत्रफल (एकड़)",
+    "Enter a Total Area": "कुल क्षेत्रफल दर्ज करें",
+    "Please select a plot first": "कृपया पहले प्लॉट चुनें",
+    "Please select Block Name": "कृपया ब्लॉक का नाम चुनें",
+    "Please select Plot Name": "कृपया प्लॉट का नाम चुनें",
+    "Area Leveling(Acre)": "क्षेत्र समतलीकरण (एकड़ में)",
+    "Total Area": "कुल क्षेत्रफल",
+    "Enter Area Leveling": "क्षेत्र समतलन दर्ज करें",
+    "Search or select machine": "मशीन खोजें या चुनें",
+    "Search or select machines": "मशीन खोजें या चुनें",
+    "Search or select tractor": "ट्रैक्टर खोजें या चुनें",
+    "Enter HSD Consumption": "एच.एस.डी खपत दर्ज करें",
+    "Machine": "मशीन",
+    "Tractor": "ट्रैक्टर",
+    "HSD Consumption": "एच.एस.डी खपत",
+    "Date": "तारीख",
+    "Start Time": "समय शुरू",
+    "End Time": "अंत समय",
+    "Submit": "जमा करना",
+    "Area Leveling": "क्षेत्र समतलीकरण",
+    "Type of Man Power": " कर्मचारी का प्रकार ",
+    "Category of Man Power (Optional)": "मानव शक्ति की श्रेणी (वैकल्पिक)",
+    "Select Type": "प्रकार चुनें",
+    "Select Category": "श्रेणी चुनना",
+    "Major Maintainance": "प्रमुख रखरखाव",
+    "Major Repair": "प्रमुख मरम्मत",
+    "Cost(Rs)": "लागत रु",
+    "Add Spare": "अतिरिक्त जोड़ें",
+    "Error loading data: ": "डेटा लोड करने में त्रुटि: ",
+    "Error loading tractor data: ": "ट्रैक्टर डेटा लोड करने में त्रुटि: ",
+    "Error loading machine data: ": "मशीन डेटा लोड करने में त्रुटि: ",
+    "Authentication token not found": "प्रमाणीकरण टोकन नहीं मिला",
+    "API returned false success status": "API ने गलत सफलता स्थिति लौटाई",
+    "Failed to load data": "डेटा लोड करने में विफल",
+
+
+    "Pre Irrigation": "पूर्व सिंचाई",
+    "Irrigation No": "सिंचाई संख्या",
+    "Pre Land Preparation": "भूमि पूर्व तैयारी",
+    "Area Covered": "कवर किया गया क्षेत्र",
+    "Enter Area": "क्षेत्र दर्ज करें",
+    "Enter Irrigation No": "सिंचाई संख्या दर्ज करें",
+    "Select Irrigation No": "सिंचाई संख्या चुनें",
+    "Irrigation Type": "सिंचाई का प्रकार",
+    "Source of Water": "जल का स्रोत",
+    "Select Water Source": "पानी का स्रोत चुनें",
+    "Select Capacity": "क्षमता चुनें",
+    "Select Man Power": "मैन पावर का चयन करें",
+
+
+
+    "Land Preparation": "भूमि की तैयारी",
+    "Soil Condition": "मिट्टी की स्थिति",
+    "Select Soil Condition": "मिट्टी की स्थिति चुनें",
+
+
+    "Showing": "बोवाई",
+    "Name of Seeds": "बीजों की विविधता",
+
+    "Select Seed": "बीज चुनें",
+
+    "Variety of Seeds": "बीजों की विविधता",
+
+    "Select Variety": "किस्म का चयन करें",
+
+    "Sowing Method": "बुवाई विधि",
+    "Select Sowing": "बुवाई का चयन करें",
+    "Purpose": "उद्देश्य",
+    "Select Purpose": "उद्देश्य चुनें",
+    "Row-To-Row Distance(cm)": "पंक्ति-से-पंक्ति दूरी(सेमी)",
+    "Sowing Depth (cm)": "बुवाई की गहराई (सेमी)",
+    "Enter Depth": "गहराई दर्ज करें",
+    "Sowing Source": "बुवाई स्रोत",
+    "Enter Distance": "दूरी दर्ज करें",
+    "Seed Consumption": "बीज की खपत",
+    "Enter Seed Consumption": "बीज की खपत दर्ज करें",
+    "Enter major repair": "प्रमुख मरम्मत दर्ज करें",
+    "Enter value": "मूल्य दर्ज करें",
+    "Select Sowing Method": "बुवाई विधि का चयन करें",
+    "Select sowing Source": "बुवाई का स्रोत चुनें",
+
+
+
+
+    "Post Irrigation": "सिंचाई के बाद",
+    "Select Irrigation": "सिंचाई का चयन करें",
+    "Irrigation Date": "सिंचाई तिथि",
+    "dd-MM-yyyy": "डीडी-माह-वर्ष",
+    "Select Water Source": "जल स्रोत चुनें",
+    "Select Capacity": "क्षमता का चयन करें",
+
+
+
+    "Fertilizer": "उर्वरक",
+    "Activity Type": "गतिविधि का प्रकार",
+    "Select Type": "प्रकार चुनें",
+    "Search or select fertilizer": "उर्वरक खोजें या चुनें",
+    "Search or select machine": "मशीन खोजें या चुनें",
+    "Search or select tractor": "ट्रैक्टर खोजें या चुनें",
+    "Select Type of Man Power first": "पहले मानव शक्ति का प्रकार चुनें",
+    "Tractor *": "ट्रैक्टर",
+    "Machine *": "मशीन",
+    "Fertilizer *": "उर्वरक",
+
+
+    "Crop Protection": "फसल संरक्षण",
+    "Please select a plot first": "कृपया पहले एक प्लॉट चुनें",
+    "Machine (Optional)": "मशीन (वैकल्पिक)",
+    "Tractor (Optional)": "ट्रैक्टर (वैकल्पिक)",
+    "HSD Consumption (Optional)": "एचएसडी खपत (वैकल्पिक)",
+    "Application Method": "आवेदन विधि",
+    "Application Stage Source": "आवेदन चरण स्रोत",
+    "Select Method": "विधि का चयन करें",
+    "Search or select ingredients": "सामग्री खोजें या चुनें",
+    "Active Ingredients *": "सक्रिय सामग्री *",
+
+    "Inter Cutlure": "अंतर संस्कृति",
+    "Date of Activity": "गतिविधि की तिथि",
+    "Select Activity": "गतिविधि चुनें",
+    "Select Type": "प्रकार चुनें",
+
+
+    "Harvest": "फसल",
+    "Harvest Date": "कटाई की तारीख",
+    "Method of Harvest *": "कटाई की विधि *",
+    "Seed Name *": "बीज का नाम *",
+    "Yield (MT)": "उपज (एमटी)",
+    "Enter a Yield": "उपज दर्ज करें",
+
+    "Hay Making": "घास बनाना",
+    "Total Green Fodder Yield (MT)": "कुल हरा चारा उपज (एमटी)",
+    "Method of Hay Making": "घास बनाने की विधि",
+    "Seed Name": "बीज का नाम",
+    "Total Yield": "कुल उपज",
+    "Select Seed Name": "बीज का नाम चुनें",
+    "Category of Man Power": "मानव शक्ति की श्रेणी",
+
+    "Silage Making": "साइलेज बनाना",
+    "Method Of Silage Making": "साइलेज बनाने की विधि",
+    "Select Method": "विधि का चयन करें",
+
+    "Agriculture Form Review": "कृषि प्रपत्र समीक्षा",
+    "Farm Management": "कृषि प्रबंधन",
+    "Select Filters": "फ़िल्टर चुनें",
+    "Location": "स्थान",
+    "Block": "ब्लॉक",
+    "Plot": "प्लॉट",
+    "Activity": "गतिविधि",
+    "Select date": "दिनांक चुनें",
+    "View History": "इतिहास देखें",
+    "End Date": "अंतिम तिथि",
+    "Start Date": "आरंभ करने की तिथि",
+
+    "Activity Monitoring": "गतिविधि निगरानी",
+    "Activity Stage": "गतिविधि चरण",
+    "Leaf Color and Condition": "पत्ती का रंग और स्थिति",
+    "Select Condition": "स्थिति चुनें",
+    "Capture Image": "छवि कैप्चर करें"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

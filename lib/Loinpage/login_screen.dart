@@ -1,18 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../APIClient.dart';
-import '../dashboard_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Dashboard/dashboard_screen.dart';
+import 'APIClient.dart';
 
 class LoginScreen extends StatefulWidget {
 // final LoginController controller;
 
-  const LoginScreen({super.key });
+  const LoginScreen({super.key});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
+
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -23,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  
   Future<void> _login() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         String email = _emailController.text.trim();
         String password = _passwordController.text.trim();
         final response = await APIClient.loginUser(email, password);
-      //  print(response);
+        //  print(response);
 
         if (response.containsKey('token')) {
           // Login successful
@@ -53,26 +53,23 @@ class _LoginScreenState extends State<LoginScreen> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('auth_token', response['token']);
           // Store user ID from response
-         if(response.containsKey('user')){
-          final user = response['user'];
+          if (response.containsKey('user')) {
+            final user = response['user'];
 
-          if(user['id'] !=null){
-            await prefs.setInt('user_id', user['id']);
+            if (user['id'] != null) {
+              await prefs.setInt('user_id', user['id']);
+            }
 
+            if (user['name'] != null) {
+              await prefs.setString('user_name', user['name']);
+            }
+
+            if (user['email'] != null) {
+              await prefs.setString('user_email', user['email']);
+            }
+
+            print("printed:${user['email']}- ${user['name']}");
           }
-
-       if(user['name']!=null){
-  await prefs.setString('user_name', user['name']);
-
-}
-
-if(user['email']!=null){
-  await prefs.setString('user_email', user['email']);
-}
-
-
-print("printed:${user['email']}- ${user['name']}");
-         }
           print('Auth Token: ${response['token']}');
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -82,19 +79,15 @@ print("printed:${user['email']}- ${user['name']}");
             ),
           );
 
- Navigator.pushReplacement(
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => 
-            const LoginScreen()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
 
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => 
-            const DashboardScreen()),
+            MaterialPageRoute(builder: (context) => const DashboardScreen()),
           );
-          
-
         } else if (response.containsKey('error')) {
           // Login failed - print error and show snackbar
           // print('Login error: ${response['error']}');
@@ -129,6 +122,7 @@ print("printed:${user['email']}- ${user['name']}");
       }
     }
   }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -171,6 +165,7 @@ print("printed:${user['email']}- ${user['name']}");
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+               
               ],
             ),
           ),
@@ -191,19 +186,25 @@ print("printed:${user['email']}- ${user['name']}");
                         focusNode: _emailFocusNode,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.email,color: Colors.grey,),
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Colors.grey,
+                          ),
                           labelText: 'email_id'.tr(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: Color(0xFF6B8E23), width: 2),
+                            borderSide: const BorderSide(
+                                color: Color(0xFF6B8E23), width: 2),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(
-                              color: _passwordFocusNode.hasFocus ? Colors.grey : Colors.grey.shade400,
+                              color: _passwordFocusNode.hasFocus
+                                  ? Colors.grey
+                                  : Colors.grey.shade400,
                               width: 1,
                             ),
                           ),
@@ -212,7 +213,8 @@ print("printed:${user['email']}- ${user['name']}");
                           if (value == null || value.isEmpty) {
                             return 'please_enter_your_email'.tr();
                           }
-                          final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                          final emailRegex = RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
                           if (!emailRegex.hasMatch(value)) {
                             return 'enter_valid_email'.tr();
                           }
@@ -225,11 +227,16 @@ print("printed:${user['email']}- ${user['name']}");
                         focusNode: _passwordFocusNode,
                         obscureText: !_isPasswordVisible,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.password,color: Colors.grey,),
+                          prefixIcon: const Icon(
+                            Icons.password,
+                            color: Colors.grey,
+                          ),
                           labelText: 'password'.tr(),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: const Color(0xFF6B8E23),
                             ),
                             onPressed: () {
@@ -243,12 +250,15 @@ print("printed:${user['email']}- ${user['name']}");
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: Color(0xFF6B8E23), width: 2),
+                            borderSide: const BorderSide(
+                                color: Color(0xFF6B8E23), width: 2),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(
-                              color: _emailFocusNode.hasFocus ? Colors.grey : Colors.grey.shade400,
+                              color: _emailFocusNode.hasFocus
+                                  ? Colors.grey
+                                  : Colors.grey.shade400,
                               width: 1,
                             ),
                           ),
@@ -263,9 +273,7 @@ print("printed:${user['email']}- ${user['name']}");
                           return null;
                         },
                       ),
-
                       const SizedBox(height: 40),
-
                       SizedBox(
                         height: 45,
                         child: Center(
@@ -278,23 +286,30 @@ print("printed:${user['email']}- ${user['name']}");
                                   borderRadius: BorderRadius.circular(12)),
                             ),
                             child: _isLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
-                                : Text('login'.tr(), style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : Text('login'.tr(),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
                           ),
                         ),
                       ),
-                        const SizedBox(height: 40),
+                      const SizedBox(height: 40),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          const Center(child: Text('Powered by Logimetrix Techsolutions Pvt Ltd',style: TextStyle(color: Colors.grey,fontSize: 12),)),
+          const Center(
+              child: Text(
+            'Powered by Logimetrix Techsolutions Pvt Ltd',
+            style: TextStyle(color: Colors.grey, fontSize: 12),
+          )),
         ],
       ),
     );
   }
 }
-
-

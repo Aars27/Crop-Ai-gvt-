@@ -1,28 +1,28 @@
 
-import 'package:cropai/Activitypage.dart';
-import 'package:cropai/SecondSplashScreen.dart';
-import 'package:cropai/splash_screen.dart';
+import 'package:cropai/Splash-Screen/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'Activity_Monitoring.dart';
-import 'AreaLevelingScreen.dart';
-import 'CropProtection.dart';
-import 'Fertilizer_Soil_Treatment.dart';
-import 'Harvesting_Updates.dart';
-import 'Hay_Making.dart';
-import 'InterCulture.dart';
-import 'Land_Preperation.dart';
-import 'LanguageSelectionScreen.dart';
-import 'NotificationPage.dart';
-import 'Post_Irrigation.dart';
-import 'Pre_Irrigation.dart';
-import 'Pre_Land_Preperation.dart';
-import 'Silage_Making.dart';
-import 'Sowing.dart';
+import 'ActivityMonitoring/Activity_Monitoring.dart';
+import 'HistoryActivityData/HistoryRequestData.dart';
+import 'Arealeveling/AreaLevelingScreen.dart';
+import 'Crop-Protection/CropProtection.dart';
+import 'Fertilize/Fertilizer_Soil_Treatment.dart';
+import 'Harvest/Harvesting_Updates.dart';
+import 'Hey-Making/Hay_Making.dart';
+import 'Inter-Culture/InterCulture.dart';
+import 'AppLocalization/LanguageSelectionScreen.dart';
+import 'Land-preparation/Land_Preperation.dart';
+import 'Notification/NotificationPage.dart';
+import 'Post-Irrigation/Post_Irrigation.dart';
+import 'Pre-Irrigation/Pre_Irrigation.dart';
+import 'Preland-Peration/Pre_Land_Preperation.dart';
+import 'Splash-Screen/SecondSplashScreen.dart';
+import 'Silage-Makeing/Silage_Making.dart';
+import 'Showing/Sowing.dart';
 import 'Loinpage/login_screen.dart';
-import 'dashboard_screen.dart';
+import 'Dashboard/dashboard_screen.dart';
+
 
 
 Future<void> main() async {
@@ -35,21 +35,21 @@ Future<void> main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('hi')],
+      supportedLocales: const [Locale('en'), Locale('hi'),Locale('gu'),Locale('tl')],
       path: 'assets/translations', // Path to translation files
       fallbackLocale: const Locale('en'),
-      child: const CropnetApp(),
+      child: const CropAI(),
     ),
   );
 }
 
-class CropnetApp extends StatelessWidget {
-  const CropnetApp({super.key});
+class CropAI extends StatelessWidget {
+  const CropAI({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cropnet',
+      title: 'Crop-AI',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -61,6 +61,7 @@ class CropnetApp extends StatelessWidget {
           secondary: const Color(0xFF76A937),
         ),
       ),
+      
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -82,13 +83,11 @@ class CropnetApp extends StatelessWidget {
         '/Hay_Making': (context) => const Hay_Making(),
         '/Silage_Making': (context) => const Silage_Making(),
         '/NotificationPage': (context) => const NotificationPage(),
-        '/AgricultureSummaryPage': (context) => const AgricultureSummaryPage(),
+        '/AgricultureSummaryPage': (context) =>  const FilterFormPage(),
       },
     );
   }
 }
-
-
 
 
 
