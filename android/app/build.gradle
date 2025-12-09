@@ -50,15 +50,15 @@ android {
     }
 
 
-    // future updates
-//    buildTypes {
-//        release {
-//            signingConfig = signingConfigs.release  // ← CORRECT SIGNING
-//            minifyEnabled true   // ← Enable this
-//            shrinkResources true // ← Keep this
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.activity:activity-ktx:1.8.2"
+            force "androidx.activity:activity:1.8.2"
+        }
+    }
+
+
+
 }
 
 flutter {

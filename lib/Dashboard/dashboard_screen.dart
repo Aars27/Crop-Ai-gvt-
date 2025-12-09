@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ActivityMonitoring/Activity_Monitoring.dart';
+import '../AddConsumption/AddConsumption.dart';
 import '../Arealeveling/AreaLevelingScreen.dart';
 import '../Crop-Protection/CropProtection.dart';
 import '../Fertilize/Fertilizer_Soil_Treatment.dart';
@@ -320,7 +321,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'color': Colors.red.shade100,
       'onTap': null,
       'screen': const FilterFormPage(),
-      }
+      },
+    {
+      'icon': 'assets/images/disel.png',
+      'label': 'Disel Consumption & Others',
+      'color': Colors.green.shade50,
+      'onTap': null,
+      'screen': DieselConsumptionScreen(),
+    }
   ];
 
   @override

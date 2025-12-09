@@ -43,6 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         String email = _emailController.text.trim();
         String password = _passwordController.text.trim();
+
+
+        print(email);
+        print(password);
         final response = await APIClient.loginUser(email, password);
         //  print(response);
 

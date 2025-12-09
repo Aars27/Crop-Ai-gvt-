@@ -31,30 +31,3 @@ class APIClient {
 }
 
 
-
-/*
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-import 'Constants.dart';
-
-class APIClient {
-
-  static Future<Map<String, dynamic>> loginUser(String email,
-      String password) async {
-    final response = await http.post(
-      Uri.parse('${Constanst().base_url}login'),
-      body: {'email': email,
-        'password': password,
-      },
-
-    );
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
-}*/
