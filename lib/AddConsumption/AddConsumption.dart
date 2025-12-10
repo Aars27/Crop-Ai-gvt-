@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:cropai/Dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DieselConsumptionScreen extends StatefulWidget {
   const DieselConsumptionScreen({super.key});
@@ -8,19 +14,78 @@ class DieselConsumptionScreen extends StatefulWidget {
 }
 
 class _DieselConsumptionScreenState extends State<DieselConsumptionScreen> {
-  final TextEditingController blockCtrl = TextEditingController();
-  final TextEditingController plotCtrl = TextEditingController();
-  final TextEditingController areaCtrl = TextEditingController();
-  final TextEditingController levelingCtrl = TextEditingController();
+  final TextEditingController diselConsumption = TextEditingController();
+  final TextEditingController Date = TextEditingController();
+  final TextEditingController Remark = TextEditingController();
+
+
+
 
   @override
-
-
   Future<bool> _onWillPop() async {
     // Navigate to dashboard screen when back button is pressed
     Navigator.pushReplacementNamed(context, '/dashboard');
     return false; // Prevents default back behavior
   }
+
+
+  Future<void> pickDate() async {
+    final d = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (d != null) {
+      Date.text =
+      "${d.year}-${d.month.toString().padLeft(2, "0")}-${d.day.toString().padLeft(2, "0")}";
+    }
+  }
+
+
+
+  Future<void> submitDiesel() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('auth_token') ?? '';
+
+    if (token.isEmpty) {
+      print('No token');
+      return;
+    }
+
+    final url = Uri.parse(
+        'https://ccbfsolution.pmmsapp.com/api/diesel-consumption');
+
+    final body = {
+      'diesel_consumption': double.tryParse(diselConsumption.text) ?? 0,
+      'date_of_entry': Date.text,
+      'remark': Remark.text
+    };
+
+    final res = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode(body),
+    );
+
+    if (res.statusCode == 200 || res.statusCode == 201) {
+
+      Fluttertoast.showToast(msg: 'Successfully Submited',
+      backgroundColor: Colors.green,
+        textColor: Colors.white
+
+      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
+
+
+    } else {
+      print('Error ${res.statusCode}  ${res.body}');
+    }
+  }
+
 
 
   Widget build(BuildContext context) {
@@ -36,7 +101,9 @@ class _DieselConsumptionScreenState extends State<DieselConsumptionScreen> {
                 backgroundColor: const Color(0xFF6B8E23),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
+                  }
                 ),
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
@@ -73,43 +140,36 @@ class _DieselConsumptionScreenState extends State<DieselConsumptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildField(
-                  label: "Block Name *",
-                  hint: "Select Block",
-                  controller: blockCtrl,
+                  label: "Disel Consumption *",
+                  hint: "Disel Consumption",
+                  controller: diselConsumption,
                 ),
 
                 const SizedBox(height: 18),
 
                 _buildField(
-                  label: "Plot Name *",
-                  hint: "Select Plot",
-                  controller: plotCtrl,
-                ),
-
-                const SizedBox(height: 18),
-
-                _buildField(
-                  label: "Area (Acre)",
-                  hint: "Total Area",
-                  controller: areaCtrl,
+                  label: "Select Date *",
+                  hint: "Select Date",
+                  controller: Date,
                   readOnly: true,
+                  onTap: pickDate,
                 ),
+
 
                 const SizedBox(height: 18),
 
                 _buildField(
-                  label: "Area Leveling (Acre) *",
-                  hint: "Enter Area Leveling",
-                  controller: levelingCtrl,
-                  keyboardType: TextInputType.number,
+                  label: "Remark/Activity",
+                  hint: "Remark",
+                  controller: Remark,
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 18),
 
                 SizedBox(
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: submitDiesel,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF6B8E23),
                       shape: RoundedRectangleBorder(
@@ -140,11 +200,13 @@ class _DieselConsumptionScreenState extends State<DieselConsumptionScreen> {
     required TextEditingController controller,
     bool readOnly = false,
     TextInputType keyboardType = TextInputType.text,
+    VoidCallback? onTap,
   }) {
     return TextField(
       controller: controller,
       readOnly: readOnly,
       keyboardType: keyboardType,
+      onTap: onTap,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -176,4 +238,5 @@ class _DieselConsumptionScreenState extends State<DieselConsumptionScreen> {
       ),
     );
   }
+
 }
