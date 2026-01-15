@@ -34,6 +34,8 @@ class harvesting_updates extends State<Harvesting_Updates> {
       TextEditingController();
 
   List<Map<String, TextEditingController>> _sparePartsControllers = [];
+  List<Map<String, TextEditingController>> _cropResidueControllers = [];
+
 
   // Focus nodes to track focus state
   final _levelingFocusNode = FocusNode();
@@ -204,6 +206,25 @@ class harvesting_updates extends State<Harvesting_Updates> {
       setState(() {});
     });*/
   }
+
+
+  void _addCropResidue() {
+    setState(() {
+      _cropResidueControllers.add({
+        'product': TextEditingController(text: 'Straw'),
+        'quantity': TextEditingController(),
+      });
+    });
+  }
+
+  void _removeCropResidue(int index) {
+    setState(() {
+      _cropResidueControllers[index]['product']?.dispose();
+      _cropResidueControllers[index]['quantity']?.dispose();
+      _cropResidueControllers.removeAt(index);
+    });
+  }
+
 
   void _addNewSparePart() {
     setState(() {
@@ -1563,6 +1584,25 @@ if (_selectedManPowerRoll != null &&
   }
 }
 
+        List<Map<String, dynamic>> otherProduction = [];
+
+        for (var item in _cropResidueControllers) {
+          if (item['product']!.text.isNotEmpty ||
+              item['quantity']!.text.isNotEmpty) {
+            otherProduction.add({
+              'product_name': item['product']!.text,
+              'quantity': item['quantity']!.text.isEmpty
+                  ? null
+                  : int.tryParse(item['quantity']!.text),
+            });
+          }
+        }
+
+
+
+
+
+
         final Map<String, dynamic> requestData = {
           'block_name': _selectedBlockId.toString(),        // Send block_id instead of block_name
           'plot_name': _selectedPlotId.toString(),
@@ -1585,7 +1625,9 @@ if (_selectedManPowerRoll != null &&
           'user_id': userId,
         };
 
-
+        if (otherProduction.isNotEmpty) {
+          requestData['other_production'] = otherProduction;
+        }
 
 // Add manpower data to request only if type is selected
 if (manpowerTypeId != null) {
@@ -1936,6 +1978,12 @@ print("Final manpower_categories: ${jsonEncode(manpowerCategories)}");
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true), // Number keyboard with decimal
                         ),
+                        const SizedBox(height: 20),
+
+
+                        _buildCropResidueSection(),
+
+
 
                         const SizedBox(height: 20),
 
@@ -2432,6 +2480,77 @@ void _updateCategoriesForType(String selectedTypeName) {
     print("Final controllers keys: ${controllers.keys}");
   });
 }
+
+
+  Widget _buildCropResidueSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Crop Residue',
+              style: TextStyle(
+                color: Color(0xFF6B8E23),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                fontFamily: "Poppins",
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: _addCropResidue,
+              icon: Icon(Icons.add, size: 16, color: Colors.white),
+              label: Text('Add',style: TextStyle(color: Colors.white),),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF6B8E23),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+
+        ..._cropResidueControllers.asMap().entries.map((entry) {
+          int index = entry.key;
+          var ctrls = entry.value;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildCustomTextField(
+                    labelText: 'Straw',
+                    hintText: 'Product Name',
+                    controller: ctrls['product']!,
+                    isRequired: false, // ❌ mandatory नहीं
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _buildCustomTextField(
+                    labelText: 'Quantity',
+                    hintText: 'Enter Quantity',
+                    controller: ctrls['quantity']!,
+                    keyboardType: TextInputType.number,
+                    isRequired: false, // ❌ mandatory नहीं
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.remove_circle, color: Colors.red),
+                  onPressed: () => _removeCropResidue(index),
+                )
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
 
 
 
