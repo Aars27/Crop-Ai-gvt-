@@ -1978,14 +1978,14 @@ print("Final manpower_categories: ${jsonEncode(manpowerCategories)}");
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true), // Number keyboard with decimal
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
 
                         _buildCropResidueSection(),
 
 
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
                         _buildDateTimePicker(
                           labelText: 'Harvest Date'.tr(),
@@ -2483,71 +2483,86 @@ void _updateCategoriesForType(String selectedTypeName) {
 
 
   Widget _buildCropResidueSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Crop Residue',
-              style: TextStyle(
-                color: Color(0xFF6B8E23),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                fontFamily: "Poppins",
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: _addCropResidue,
-              icon: Icon(Icons.add, size: 16, color: Colors.white),
-              label: Text('Add',style: TextStyle(color: Colors.white),),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF6B8E23),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Crop Residue',
+                style: TextStyle(
+                  color: Color(0xFF6B8E23),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  fontFamily: "Poppins",
                 ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-
-        ..._cropResidueControllers.asMap().entries.map((entry) {
-          int index = entry.key;
-          var ctrls = entry.value;
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildCustomTextField(
-                    labelText: 'Straw',
-                    hintText: 'Product Name',
-                    controller: ctrls['product']!,
-                    isRequired: false, // ❌ mandatory नहीं
+              SizedBox(
+                height: 30,
+                // width: ,
+                child: ElevatedButton.icon(
+                  onPressed: _addCropResidue,
+                  icon: Icon(Icons.add, size: 12, color: Colors.white),
+                  label: Text('Add',style: TextStyle(color: Colors.white,fontSize: 12),),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF6B8E23),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _buildCustomTextField(
-                    labelText: 'Quantity',
-                    hintText: 'Enter Quantity',
-                    controller: ctrls['quantity']!,
-                    keyboardType: TextInputType.number,
-                    isRequired: false, // ❌ mandatory नहीं
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          ..._cropResidueControllers.asMap().entries.map((entry) {
+            int index = entry.key;
+            var ctrls = entry.value;
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: ctrls['product'],
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: 'Straw',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.remove_circle, color: Colors.red),
-                  onPressed: () => _removeCropResidue(index),
-                )
-              ],
-            ),
-          );
-        }),
-      ],
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _buildCustomTextField(
+                      labelText: 'Quantity',
+                      hintText: 'Enter Quantity',
+                      controller: ctrls['quantity']!,
+                      keyboardType: TextInputType.number,
+                      isRequired: false,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.remove_circle, color: Colors.red),
+                    onPressed: () => _removeCropResidue(index),
+                  )
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
     );
   }
 
