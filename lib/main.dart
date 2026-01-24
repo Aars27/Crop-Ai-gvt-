@@ -25,6 +25,7 @@ import 'Dashboard/dashboard_screen.dart';
 
 
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();

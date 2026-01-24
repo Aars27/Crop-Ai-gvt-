@@ -10,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Dashboard/dashboard_screen.dart';
 import '../widget/Constants.dart';
 
+
+
+
 class Sowing extends StatefulWidget {
   const Sowing({super.key});
 
@@ -56,9 +59,15 @@ class sowing_preperation extends State<Sowing> {
   String? _selectedSeed = 'Select Seed'.tr();
   String? _selectedVarity = 'Select Variety';
 
+  // int? _selectedSeedVarietyId; // Add this with other declarations
+
   String? _selected_Sowing_Method = 'Select Sowing Method'.tr();
 
   int? _selectedSowingMethodId; // Add this new variable to store the selected ID
+
+  int? _selectedSeedId;
+  int? _selectedSeedVarietyId; // Add this new line
+
 
   String? _selectedPurpose = 'Select Purpose';
   String? _selectedSowingSource = 'Select Sowing Source'.tr();
@@ -90,7 +99,7 @@ class sowing_preperation extends State<Sowing> {
 // Add these variables with your other declarations
   List<Map<String, dynamic>> _seedData = [];
   Map<String, Map<String, dynamic>> _seedVarietyMapWithIds = {};
-  int? _selectedSeedId;
+  // int? _selectedSeedId;
 
   // ID storage for API communication
   int? _selectedSiteId;
@@ -118,6 +127,8 @@ class sowing_preperation extends State<Sowing> {
 
   List<String> _seedName = ['Select Seed'];
   List<String> _varietyName = ['Select variety'];
+
+
 
   List<String> _sowingName = ['Select sowing Method'.tr()];
   List<String> _purposeName = ['Select purpose'];
@@ -1501,11 +1512,12 @@ class sowing_preperation extends State<Sowing> {
           'user_id': userId, // Now getting user_id from SharedPreferences
 
           //change new seed
-          'seed_id': _selectedSeedId,
-          'variety_of_seed':
-          _selectedVarity == 'Select Variety' ? null : _selectedVarity,
-          'seed_name':
-          _selectedSeed == 'Select Seed'.tr() ? null : _selectedSeed,
+          // In _submitForm method, replace the seed section with:
+          // Find this section in _submitForm and replace it:
+          'seed_id': _selectedSeedId,  // Yeh variety ki seed_id hai
+          'seed_variety_id': _selectedSeedVarietyId,  // Yeh variety_id hai
+          'variety_of_seed': _selectedVarity == 'Select Variety' ? null : _selectedVarity,
+          'seed_name': _selectedSeed == 'Select Seed'.tr() ? null : _selectedSeed,
 
 // 'sowing_method': _selected_Sowing_Method == 'Select Sowing Method'
 //     ? null
@@ -1825,11 +1837,14 @@ class sowing_preperation extends State<Sowing> {
                     items: _seedName,
                     onChanged: (value) {
                       if (value != null) {
+                        print('🔄 Seed selected: $value');
                         setState(() {
                           _selectedSeed = value;
-                          // Update varieties when seed changes
-                          _updateVarieties(value);
+                          _selectedVarity = 'Select Variety';  // Reset variety
+                          _selectedSeedId = null;
+                          _selectedSeedVarietyId = null;
                         });
+                        _updateVarieties(value);  // Update varieties
                       }
                     },
                   ),
@@ -1842,10 +1857,10 @@ class sowing_preperation extends State<Sowing> {
                     items: _varietyName,
                     onChanged: (value) {
                       if (value != null) {
+                        print('🔄 Variety selected: $value');
                         setState(() {
                           _selectedVarity = value;
                         });
-                        // Add this line to set the correct seed_id
                         _onVarietySelected(value);
                       }
                     },
@@ -1918,7 +1933,7 @@ class sowing_preperation extends State<Sowing> {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true),
                       // Number keyboard with decimal
-                      maxLength: 3),
+                      maxLength: 8),
 
                   const SizedBox(height: 20),
 
@@ -2088,6 +2103,7 @@ class sowing_preperation extends State<Sowing> {
       _selectedBlockId = null;
       _selectedPlotId = null;
       _selectedSeedId = null;
+      _selectedSeedVarietyId = null; // Add this line in _resetForm
       _selectedSowingMethodId =
       null; // Add this line where other resets are happening
 
@@ -2253,17 +2269,17 @@ class sowing_preperation extends State<Sowing> {
   }
 
   Future<void> fetchCategories() async {
-    print('📡 Starting fetchCategories API call...');
+    print(' Starting fetchCategories API call...');
     final prefs = await SharedPreferences.getInstance();
 
     String? token = prefs.getString('auth_token');
 
     if (token!.isEmpty) {
-      print('⚠️ Token not found in SharedPreferences');
+      print('️ Token not found in SharedPreferences');
       return;
     }
 
-    print('✅ Token found: $token');
+    print(' Token found: $token');
 
     try {
       final response = await http.post(
@@ -2383,12 +2399,12 @@ class sowing_preperation extends State<Sowing> {
       isLoading = true;
     });
 
-    print('📡 Starting fetchSeedDetails API call...');
+    print('🔍 Starting fetchSeedDetails API call...');
     final prefs = await SharedPreferences.getInstance();
 
     String? token = prefs.getString('auth_token');
 
-    if (token!.isEmpty) {
+    if (token == null || token.isEmpty) {
       print('⚠️ Token not found in SharedPreferences');
       setState(() {
         isLoading = false;
@@ -2408,48 +2424,49 @@ class sowing_preperation extends State<Sowing> {
         },
       );
 
+      print('📡 Response status: ${response.statusCode}');
+      print('📦 Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
 
         if (body['status'] == 'success') {
-          // Store the complete seed data from API
           final List<dynamic> seedData = body['data'];
           _seedData = List<Map<String, dynamic>>.from(seedData);
 
-          // Create seed variety mapping with IDs - GROUP BY SEED NAME
           Map<String, Map<String, dynamic>> seedVarietyMapWithIds = {};
-
 
           setState(() {
             _seedName = ['Select Seed'];
-            Set<String> uniqueSeedNames = {}; // Use Set to avoid duplicates
+            Set<String> uniqueSeedNames = {};
 
             // Process each seed from the response
             for (var seed in _seedData) {
               String seedName = seed['seed_name'];
               int seedId = seed['seed_id'];
+              int seedVarietyId = seed['seed_variety'];
               String variety = seed['variety_of_seed'];
 
-              // Add unique seed names only
+              print('🌱 Processing: $seedName - $variety (seed_id: $seedId, variety_id: $seedVarietyId)');
+
               uniqueSeedNames.add(seedName);
 
-              // Group varieties by seed name
               if (seedVarietyMapWithIds.containsKey(seedName)) {
-                // Add variety to existing seed
                 List<Map<String, dynamic>> existingVarieties =
-                List<Map<String, dynamic>>.from(seedVarietyMapWithIds[seedName]!['varieties']);
+                List<Map<String, dynamic>>.from(
+                    seedVarietyMapWithIds[seedName]!['varieties']);
                 existingVarieties.add({
                   'seed_id': seedId,
+                  'seed_variety_id': seedVarietyId,
                   'variety_name': variety,
                 });
                 seedVarietyMapWithIds[seedName]!['varieties'] = existingVarieties;
               } else {
-                // Create new entry for this seed name
                 seedVarietyMapWithIds[seedName] = {
                   'varieties': [
                     {
                       'seed_id': seedId,
+                      'seed_variety_id': seedVarietyId,
                       'variety_name': variety,
                     }
                   ],
@@ -2458,31 +2475,37 @@ class sowing_preperation extends State<Sowing> {
             }
 
             _seedName.addAll(uniqueSeedNames.toList());
-
-            // Store the mapping for later use
             _seedVarietyMapWithIds = seedVarietyMapWithIds;
 
-            // Initialize variety dropdown
-            _varietyName = ['Select Variety'.tr()];
+            print('✅ Total Seeds: ${_seedName.length - 1}');
+            print('📊 Seed Mapping: $_seedVarietyMapWithIds');
+
+            _varietyName = ['Select Variety'];
             isLoading = false;
           });
-
-          print('Seeds loaded: ${_seedName.length - 1}');
-          print('Seed mapping: $_seedVarietyMapWithIds');
         } else {
           setState(() => isLoading = false);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Something went wrong')),
           );
         }
+      } else {
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${response.statusCode}')),
+        );
       }
     } catch (e) {
+      print('❌ Error: $e');
       setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Something went wrong')),
+        SnackBar(content: Text('Error: $e')),
       );
     }
   }
+
+
+
 
 
   Future<void> _fetchSowingMethod() async {
@@ -2646,71 +2669,90 @@ class sowing_preperation extends State<Sowing> {
   }
 
 
-
-  // Replace the _updateVarieties method with this updated version
   void _updateVarieties(String seedName) {
-    if (seedName == 'Select Seed') {
+    print('🔍 _updateVarieties called with: $seedName');
+
+    if (seedName == 'Select Seed' || seedName == 'Select Seed'.tr()) {
       setState(() {
         _varietyName = ['Select Variety'];
         _selectedVarity = 'Select Variety';
         _selectedSeedId = null;
+        _selectedSeedVarietyId = null;
       });
+      print('⚠️ Default seed selected, resetting varieties');
       return;
     }
 
     // Get seed data for the selected seed
     Map<String, dynamic>? seedData = _seedVarietyMapWithIds[seedName];
 
+    print('📊 Seed data found: ${seedData != null}');
+
     if (seedData != null) {
       List<Map<String, dynamic>> varieties =
       List<Map<String, dynamic>>.from(seedData['varieties']);
 
+      print('🌾 Found ${varieties.length} varieties for $seedName');
+
       setState(() {
         _varietyName = ['Select Variety'];
+
         // Add all varieties for this seed
         for (var variety in varieties) {
-          _varietyName.add(variety['variety_name']);
+          String varietyName = variety['variety_name'];
+          _varietyName.add(varietyName);
+          print('  ➕ Added variety: $varietyName');
         }
+
         _selectedVarity = 'Select Variety';
-        // Don't set _selectedSeedId here, set it when variety is selected
         _selectedSeedId = null;
+        _selectedSeedVarietyId = null;
       });
 
-      print('Updated varieties for $seedName: ${_varietyName.length -
-          1} options');
-      print('Available varieties: $_varietyName');
+      print('✅ Variety dropdown updated with ${_varietyName.length - 1} varieties');
+      print('📋 Varieties list: $_varietyName');
+    } else {
+      print('❌ No seed data found for: $seedName');
+      print('Available seeds in map: ${_seedVarietyMapWithIds.keys.toList()}');
     }
   }
 
 
-// Add this new method to handle variety selection and set the correct seed_id
   void _onVarietySelected(String selectedVariety) {
-    if (selectedVariety == 'Select Variety' || _selectedSeed == null ||
+    if (selectedVariety == 'Select Variety' ||
+        _selectedSeed == null ||
         _selectedSeed == 'Select Seed') {
       setState(() {
-        _selectedSeedId = _selectedSeedId; //change adarsh
+        _selectedSeedId = null;
+        _selectedSeedVarietyId = null;
       });
       return;
     }
 
-    // Find the seed_id for the selected seed name and variety combination
+    // Find the seed_id and seed_variety_id for selected variety
     Map<String, dynamic>? seedData = _seedVarietyMapWithIds[_selectedSeed!];
 
     if (seedData != null) {
       List<Map<String, dynamic>> varieties =
       List<Map<String, dynamic>>.from(seedData['varieties']);
 
-      // Find the specific variety and get its seed_id
+      // Find the specific variety and get its IDs
       for (var variety in varieties) {
         if (variety['variety_name'] == selectedVariety) {
           setState(() {
             _selectedSeedId = variety['seed_id'];
+            _selectedSeedVarietyId = variety['seed_variety_id'];
           });
-          print(
-              'Selected seed_id: $_selectedSeedId for variety: $selectedVariety');
+          print('✅ Selected Variety: $selectedVariety');
+          print('📌 seed_id: $_selectedSeedId');
+          print('📌 seed_variety_id: $_selectedSeedVarietyId');
           break;
         }
       }
     }
   }
+
+
+
+
 }

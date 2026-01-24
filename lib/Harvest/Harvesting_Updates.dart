@@ -2514,6 +2514,8 @@ void _updateCategoriesForType(String selectedTypeName) {
                     ),
                   ),
                 ),
+
+
               ),
             ],
           ),
