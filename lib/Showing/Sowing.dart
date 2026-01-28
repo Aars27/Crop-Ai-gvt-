@@ -129,7 +129,6 @@ class sowing_preperation extends State<Sowing> {
   List<String> _varietyName = ['Select variety'];
 
 
-
   List<String> _sowingName = ['Select sowing Method'.tr()];
   List<String> _purposeName = ['Select purpose'];
   List<String> _sowing_source = ['Select sowing source'.tr()];
